@@ -112,7 +112,7 @@ class ImageProducer(object):
 
     def batches(self, session):
         '''Yield a batch until no more images are left.'''
-        for _ in xrange(self.num_batches):
+        for _ in range(int(self.num_batches)):
             yield self.get(session=session)
 
     def load_image(self, image_path, is_jpeg):

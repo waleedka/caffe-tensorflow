@@ -53,6 +53,8 @@ def validate(net, model_path, image_producer, top_k=5):
     # The total number of images
     total = len(image_producer)
 
+    print(net.get_unique_name('conv'))
+
     with tf.Session() as sesh:
         coordinator = tf.train.Coordinator()
         # Load the converted parameters
@@ -61,12 +63,14 @@ def validate(net, model_path, image_producer, top_k=5):
         threads = image_producer.start(session=sesh, coordinator=coordinator)
         # Iterate over and classify mini-batches
         for (labels, images) in image_producer.batches(sesh):
-            correct += np.sum(sesh.run(top_k_op,
-                                       feed_dict={input_node: images,
-                                                  label_node: labels}))
+            res = sesh.run(top_k_op,feed_dict={input_node: images,label_node: labels})
+            correct += np.sum(res)
+            #pred = sesh.run(probs, feed_dict={input_node: images, label_node:labels})
+            #print(np.argmax(pred,axis=1))
+            #correct += 100
             count += len(labels)
             cur_accuracy = float(correct) * 100 / count
-            print('{:>6}/{:<6} {:>6.2f}%'.format(count, total, cur_accuracy))
+            print('{:>6}/{:<6} {:>6.2f}% {:>6}'.format(count, total, cur_accuracy, correct))
         # Stop the worker threads
         coordinator.request_stop()
         coordinator.join(threads, stop_grace_period_secs=2)
