@@ -24,7 +24,7 @@ def process_image(img, scale, isotropic, crop, mean):
     # Center crop
     # Use the slice workaround until crop_to_bounding_box supports deferred tensor shapes
     # See: https://github.com/tensorflow/tensorflow/issues/521
-    offset = (new_shape - crop) / 2
+    offset = tf.to_int32((new_shape - crop) / 2)
     img = tf.slice(img, begin=tf.pack([offset[0], offset[1], 0]), size=tf.pack([crop, crop, -1]))
     # Mean subtraction
     return tf.to_float(img) - mean
