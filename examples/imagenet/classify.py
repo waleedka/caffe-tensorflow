@@ -11,8 +11,8 @@ import dataset
 def display_results(image_paths, probs):
     '''Displays the classification results given the class probability for each image'''
     # Get a list of ImageNet class labels
-    with open('imagenet-classes.txt', 'rb') as infile:
-        class_labels = map(str.strip, infile.readlines())
+    with open('imagenet-classes.txt', 'r') as infile:
+        class_labels = list(map(str.strip, infile.readlines()))
     # Pick the class with the highest confidence for each image
     class_indices = np.argmax(probs, axis=1)
     # Display the results

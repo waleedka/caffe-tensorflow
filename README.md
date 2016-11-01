@@ -2,6 +2,9 @@
 
 Convert [Caffe](https://github.com/BVLC/caffe/) models to [TensorFlow](https://github.com/tensorflow/tensorflow).
 
+# About this Fork
+Conversion of the original code for python 3.x.
+
 ## Usage
 
 Run `convert.py` to convert an existing Caffe model to TensorFlow.

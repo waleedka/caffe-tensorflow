@@ -11,7 +11,7 @@ batch_size = 32
 
 def gen_data(source):
     while True:
-        indices = range(len(source.images))
+        indices = list(range(len(source.images)))
         random.shuffle(indices)
         for i in indices:
             image = np.reshape(source.images[i], (28, 28, 1))

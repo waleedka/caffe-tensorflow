@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import caffe
 import os
 import sys
 import numpy as np
@@ -29,11 +30,11 @@ def convert(def_path, caffemodel_path, data_output_path, code_output_path, phase
         if caffemodel_path is not None:
             data = transformer.transform_data()
             print_stderr('Saving data...')
-            with open(data_output_path, 'wb') as data_out:
+            with open(data_output_path, 'wb+') as data_out:
                 np.save(data_out, data)
         if code_output_path:
             print_stderr('Saving source...')
-            with open(code_output_path, 'wb') as src_out:
+            with open(code_output_path, 'w+') as src_out:
                 src_out.write(transformer.transform_source())
         print_stderr('Done.')
     except KaffeError as err:
